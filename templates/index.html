@@ -6,16 +6,19 @@
 </head>
 <body>
 <h1>What would you like to eat today?</h1>
-<div>
+<form id="recipe-search">
     <label for="ingredient-input">I have:</label>
-    <input id="ingredient-input" placeholder="main ingredient">
-    <button onclick="findRecipe()">Find Recipe</button>
-</div>
+    <input id="ingredient-input" placeholder="main ingredient" required>
+    <button>Find Recipe</button>
+</form>
 <script>
-    function findRecipe() {
-        const ingredient = document.getElementById("ingredient-input").value
-        location.pathname = `/recipe/${ingredient.replaceAll(" ", "_").toLowerCase()}`
-    }
+    document.getElementById("recipe-search").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const ingredient = document.getElementById("ingredient-input").value.trim();
+        if (ingredient) {
+            location.pathname = "/recipe/" + encodeURIComponent(ingredient.toLowerCase().replace(/\s+/g, "_"));
+        }
+    });
 </script>
 </body>
 </html>
