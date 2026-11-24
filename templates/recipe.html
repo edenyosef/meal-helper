@@ -2,20 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Recipe with {{ ingredient }}</title>
+    <title>{{ recipe.name }}</title>
 </head>
 <body>
+<a href="{{ url_for('index') }}">Search for another recipe</a>
+{% if ingredient %}
 <h1>Here's a recipe that contains {{ ingredient.replace("_", " ") }}!</h1>
 <h2>{{ recipe.name }}</h2>
-<img src="{{ recipe.image }}">
-<div>
-    <ul>
-        {% for name, measure in recipe.ingredients.items() %}
-            <li>{{ name }}: {{ measure }}</li>
-        {% endfor %}
-    </ul>
-</div>
-<p>{{ recipe.instructions }}</p>
+{% else %}
+<h1>{{ recipe.name }}</h1>
+{% endif %}
+{% if recipe.image %}
+<img src="{{ recipe.image }}" alt="{{ recipe.name }}" width="400">
+{% endif %}
+<h3>Ingredients</h3>
+<ul>
+    {% for name, measure in recipe.ingredients.items() %}
+    <li>{{ name }}{% if measure %}: {{ measure }}{% endif %}</li>
+    {% endfor %}
+</ul>
+<h3>Instructions</h3>
+<p style="white-space: pre-line">{{ recipe.instructions }}</p>
+{% if recipe.video %}
 <p>Here's a <a href="{{ recipe.video }}">video</a> if you need further help.</p>
+{% endif %}
 </body>
 </html>
